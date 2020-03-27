@@ -36,6 +36,9 @@ class _SplashScreenState extends State<SplashScreen>
   void initState() {
     super.initState();
     getPermissions();
+    Future.delayed(Duration(seconds: 2)).then((v) {
+          Navigator.of(context).pushReplacementNamed('/dash');
+        });
 //    Authenticate().isSignIn().then((isSignIn) {
 //      if (isSignIn)
 //        Authenticate().nextPage(context);

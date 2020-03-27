@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "513191691345",
+    "firebase_url": "https://covid-19tracker-272dc.firebaseio.com",
+    "project_id": "covid-19tracker-272dc",
+    "storage_bucket": "covid-19tracker-272dc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:513191691345:android:ef3432268c13967dbde470",
+        "android_client_info": {
+          "package_name": "tech.maddybcorp.covid19tracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "513191691345-9pn32686i2b6boiq4rvc233spp4d1vh3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "tech.maddybcorp.covid19tracker",
+            "certificate_hash": "2e244a234d97620aa705b0878e52dbd9f7d39f77"
+          }
+        },
+        {
+          "client_id": "513191691345-m68s6csln172jd5akp60jqqh7liti463.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDaU1yNDhEFTfAkUEDZCsjEUuUsLo_bZtg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "513191691345-m68s6csln172jd5akp60jqqh7liti463.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
