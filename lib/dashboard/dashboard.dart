@@ -1,6 +1,7 @@
 import 'package:covid19tracker/common/ui/custom_card.dart';
 import 'package:covid19tracker/dashboard/model/stats.dart';
 import 'package:covid19tracker/dashboard/resource/getStats.dart';
+import 'package:covid19tracker/dashboard/resource/uploadLocation.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 
@@ -30,6 +31,7 @@ class _DashBoardState extends State<DashBoard> {
 //      print(locationData.accuracy);
 //    });
     location.onLocationChanged.listen((loc) {
+      uploadLocation(loc);
       setState(() {
         locationData = loc;
       });
@@ -52,61 +54,65 @@ class _DashBoardState extends State<DashBoard> {
           IconButton(icon: Icon(Icons.refresh),onPressed: listenForCurrStats,)
         ],
       ),
-      body: RefreshIndicator(
-        onRefresh: listenForCurrStats,
-        child: Column(
-          children: <Widget>[
-            MaterialButton(
-              color: Colors.redAccent,
-              onPressed: () {},
-              child: Padding(
-                padding: EdgeInsets.all(10),
-                child: Text('upload'),
-              ),
-            ),
-            CustomCard(
-              child: Column(
-                children: <Widget>[
-                  CustomCardTitle(title: 'Total'),
-                  Text(currStats.total.toString()),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+      body: Container(
+        child: RefreshIndicator(
+          onRefresh: listenForCurrStats,
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                MaterialButton(
+                  color: Colors.redAccent,
+                  onPressed: () {},
+                  child: Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Text('upload'),
+                  ),
+                ),
+                CustomCard(
+                  child: Column(
                     children: <Widget>[
-                      Column(
+                      CustomCardTitle(title: 'Total'),
+                      Text(currStats.total.toString()),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
-                          Text('Indian'),
-                          Text(currStats.confirmedIndian.toString()),
+                          Column(
+                            children: <Widget>[
+                              Text('Indian'),
+                              Text(currStats.confirmedIndian.toString()),
+                            ],
+                          ),
+                          Column(
+                            children: <Widget>[
+                              Text('Foreign'),
+                              Text(currStats.confirmedForeign.toString()),
+                            ],
+                          ),
                         ],
-                      ),
-                      Column(
-                        children: <Widget>[
-                          Text('Foreign'),
-                          Text(currStats.confirmedForeign.toString()),
-                        ],
-                      ),
+                      )
                     ],
                   )
-                ],
-              )
+                ),
+                CustomCard(
+                  child: Column(
+                    children: <Widget>[
+                      CustomCardTitle(title: 'Discharged'),
+                      Text(currStats.discharged.toString())
+                    ],
+                  )
+                ),
+                CustomCard(
+                  child: Column(
+                    children: <Widget>[
+                      CustomCardTitle(title: 'Deaths'),
+                      Text(currStats.deaths.toString())
+                    ],
+                  )
+                ),
+                locationData != null ? Text(locationData.toString()) : SizedBox(),
+              ],
             ),
-            CustomCard(
-              child: Column(
-                children: <Widget>[
-                  CustomCardTitle(title: 'Discharged'),
-                  Text(currStats.discharged.toString())
-                ],
-              )
-            ),
-            CustomCard(
-              child: Column(
-                children: <Widget>[
-                  CustomCardTitle(title: 'Deaths'),
-                  Text(currStats.deaths.toString())
-                ],
-              )
-            ),
-            locationData != null ? Text(locationData.toString()) : SizedBox(),
-          ],
+          ),
         ),
       ),
     );
