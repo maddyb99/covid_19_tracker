@@ -28,6 +28,7 @@ dependencies:
   google_sign_in: any
   permission_handler: any
   location: any
+  http: any
 
 dev_dependencies:
   flutter_test:

@@ -1,3 +1,6 @@
+import 'package:covid19tracker/common/ui/custom_card.dart';
+import 'package:covid19tracker/dashboard/model/stats.dart';
+import 'package:covid19tracker/dashboard/resource/getStats.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 
@@ -9,10 +12,12 @@ class DashBoard extends StatefulWidget {
 class _DashBoardState extends State<DashBoard> {
   Location location;
   LocationData locationData;
+  CurrStats currStats;
 
   @override
   initState() {
     super.initState();
+    listenForCurrStats();
 //    location.onLocationChanged;
     location = Location();
     location.changeSettings(
@@ -31,7 +36,12 @@ class _DashBoardState extends State<DashBoard> {
       print(locationData.accuracy);
     });
   }
-
+  void listenForCurrStats() async {
+    final Stream<CurrStats> stream = await getCurrStats();
+    stream.listen((CurrStats beer) =>
+        setState(() =>  currStats=beer)
+    );
+  }
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -39,18 +49,62 @@ class _DashBoardState extends State<DashBoard> {
       appBar: AppBar(
         title: Text('Covid Tracker'),
       ),
-      body: Column(
-        children: <Widget>[
-          MaterialButton(
-            color: Colors.redAccent,
-            onPressed: () {},
-            child: Padding(
-              padding: EdgeInsets.all(10),
-              child: Text('upload'),
+      body: RefreshIndicator(
+        onRefresh: listenForCurrStats,
+        child: Column(
+          children: <Widget>[
+            MaterialButton(
+              color: Colors.redAccent,
+              onPressed: () {},
+              child: Padding(
+                padding: EdgeInsets.all(10),
+                child: Text('upload'),
+              ),
             ),
-          ),
-          locationData != null ? Text(locationData.toString()) : SizedBox(),
-        ],
+            CustomCard(
+              child: Column(
+                children: <Widget>[
+                  CustomCardTitle(title: 'Total'),
+                  Text(currStats.total.toString()),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      Column(
+                        children: <Widget>[
+                          Text('Indian'),
+                          Text(currStats.confirmedIndian.toString()),
+                        ],
+                      ),
+                      Column(
+                        children: <Widget>[
+                          Text('Foreign'),
+                          Text(currStats.confirmedForeign.toString()),
+                        ],
+                      ),
+                    ],
+                  )
+                ],
+              )
+            ),
+            CustomCard(
+              child: Column(
+                children: <Widget>[
+                  CustomCardTitle(title: 'Discharged'),
+                  Text(currStats.discharged.toString())
+                ],
+              )
+            ),
+            CustomCard(
+              child: Column(
+                children: <Widget>[
+                  CustomCardTitle(title: 'Deaths'),
+                  Text(currStats.deaths.toString())
+                ],
+              )
+            ),
+            locationData != null ? Text(locationData.toString()) : SizedBox(),
+          ],
+        ),
       ),
     );
   }
