@@ -36,7 +36,7 @@ class _DashBoardState extends State<DashBoard> {
       print(locationData.accuracy);
     });
   }
-  void listenForCurrStats() async {
+ Future<void> listenForCurrStats() async {
     final Stream<CurrStats> stream = await getCurrStats();
     stream.listen((CurrStats beer) =>
         setState(() =>  currStats=beer)
@@ -48,6 +48,9 @@ class _DashBoardState extends State<DashBoard> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Covid Tracker'),
+        actions: <Widget>[
+          IconButton(icon: Icon(Icons.refresh),onPressed: listenForCurrStats,)
+        ],
       ),
       body: RefreshIndicator(
         onRefresh: listenForCurrStats,
